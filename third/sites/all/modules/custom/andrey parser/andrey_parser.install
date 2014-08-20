@@ -1,0 +1,26 @@
+<?php
+// Add content type
+function andrey_parser_install(){
+   if(!node_type_load('parsing_currency')){
+      $node_type = array(
+          'type' =>'parsing_currency',
+          'name' =>'parsing currency',
+          'base' =>'node_content',
+          'custom'=>'true',
+          'locked'=>'false'
+      );
+      $content_type = node_type_set_defaults($node_type);
+      node_type_save($content_type);
+      drupal_set_message("'parsing currency' content type has been created");
+   }
+   else{
+     drupal_set_message("'parsing currency' content type already exist");
+   }
+}
+
+// Delete content type
+function andrey_module_uninstall(){
+    if(node_type_load("parsing_currency")){
+      node_type_delete("parsing_currency");
+    }
+}

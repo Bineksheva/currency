@@ -1,0 +1,133 @@
+/**
+ * This file should get overwritten if Method 1 is used. If Method 2 is chosen,
+ * remove this comment and start adding your styles to this file.
+ */
+
+/**
+ * Common settings
+ */
+.navbar{
+    display: none;
+}
+.front .page-header{
+    display: none;
+}
+.submitted{
+    display: none;
+}
+/*
+ * Header
+ */
+.bikes_header_title{
+    font-size: 34px;
+    color: #b2b2b2;
+}
+/*
+ * Content
+ */
+.views-row{
+    float: left;
+    margin:0.5%;
+    padding: 5px;
+    background: #ebebeb;
+}
+.views-row .views-field-title {
+    font-size: 18px;
+    margin-right: 17%;
+    margin-left: 17%;
+    margin-top: 8%;
+    margin-bottom:8%;
+}
+.views-row .views-field-title a{
+  color:  #000000;
+  text-decoration: none;
+}
+.flag-wrapper a{
+    color: transparent;
+    display: block;
+    overflow: hidden;
+    background: url("../images/bag.png") no-repeat scroll right;
+    width: 25px;
+    height: 20px;
+    outline: solid 1px;
+    float: right;
+    margin-top: 5%;
+    opacity: 0.8;
+}
+.flag-wrapper .unflag-action{
+    opacity: 0.3;
+}
+/*
+ * Basket Count
+ */
+#block-views-basket-count-block{
+    max-width: 300px;
+    float: right;
+    text-align: right;
+}
+#block-views-basket-count-block .views-row{
+    background: #ffffff;
+}
+.views-field-php{
+  display: inline-block;
+}
+.views-field-nid{
+    display: inline-block;
+    color: orange;
+    font-size: 20px;
+}
+/*
+ * Node view
+ */
+.node-bmx .content{
+}
+/*#block-system-main{*/
+    /*text-align: right;*/
+    /*outline: solid 1px;*/
+/*}*/
+/*.page-header {*/
+    /*width: 300px;*/
+/*}*/
+.node_title_andrey{
+    display: block;
+    font-size: 28px;
+    position: absolute;
+    left: 70%;
+    /*max-width: 200px;*/
+    border: solid;
+}
+.front .node_title_andrey{
+    display: none;
+}
+#block-system-main img{
+    float: left;
+}
+.field-name-field-price, .field-name-field-weight{
+    /*margin-top: 5%;*/
+    max-width: 200px;
+    display: inline-block;
+    margin-right: 30%;
+    outline: solid 1px;
+}
+/*
+ * CURRENCY PARSER
+ */
+.entity-field-collection-item .field-label{
+    float: left;
+}
+.views-field .views-label{
+    color: red;
+    font-size: 18px;
+}
+span.views-label-field-test-field{
+    font-size: 12px !important;
+    color: #000000 !important;
+    opacity: 0.5;
+    float: left;
+    margin-right: 5%;
+}
+.views-field-field-test-field .field-content{
+    margin-left: 5%;
+    font-size: 12px;
+    opacity: 0.5;
+}

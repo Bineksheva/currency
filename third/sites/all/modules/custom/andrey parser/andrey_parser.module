@@ -1,0 +1,81 @@
+<?php
+require_once"inc/simple_html_dom.php";
+// Parser code
+function andrey_parser_cron(){
+$parsElement = file_get_html("http://kurs.com.ua/rub");
+
+  $today_date = $parsElement->find("input[id=s_date]",0)->value;
+  $today_rub_course = "http://kurs.com.ua/ajax/valyuta_nalichnie/all/rub/".$today_date;
+  $today_usd_course = "http://kurs.com.ua/ajax/valyuta_nalichnie/all/usd/".$today_date;
+  $today_eur_course = "http://kurs.com.ua/ajax/valyuta_nalichnie/all/eur/".$today_date;
+  $today_gbp_course = "http://kurs.com.ua/ajax/valyuta_nalichnie/all/gbp/".$today_date;
+  $today_chf_course = "http://kurs.com.ua/ajax/valyuta_nalichnie/all/chf/".$today_date;
+
+  $best_rub = file_get_contents($today_rub_course);
+  $best_usd = file_get_contents($today_usd_course);
+  $best_eur = file_get_contents($today_eur_course);
+  $best_gbp = file_get_contents($today_gbp_course);
+  $best_chf = file_get_contents($today_chf_course);
+    $best_rub = json_decode($best_rub,true);
+    $best_usd = json_decode($best_usd,true);
+    $best_eur = json_decode($best_eur,true);
+    $best_gbp = json_decode($best_gbp,true);
+    $best_chf = json_decode($best_chf,true);
+
+//  header("Content-Type: text/html; charset=utf-8");
+//  var_dump($best_rub);
+//  die();
+        // Create node for parsed content
+        $node = new stdClass();
+        $node->type = 'exchange';
+        node_object_prepare($node);
+        $node->title = $today_date;
+        $node->field_test_field[LANGUAGE_NONE][0]['value'] = strftime("%H:%M:%S");
+        $node->language = LANGUAGE_NONE;
+        $node->uid = 1;
+        $node->status = 1;
+        $node->promote = 1;
+        node_save($node);
+
+  //Field BUY
+        $field_collection_item = entity_create('field_collection_item',array(
+            'field_name' => 'field_buy'
+        ));
+        $field_collection_item->setHostEntity('node',$node);
+        $collection_item_wrapper = entity_metadata_wrapper('field_collection_item', $field_collection_item);
+        $collection_item_wrapper->field_rub = $best_rub['best']['ask']." uah"."update:".substr($best_rub['best']['date_time'],10);
+        $collection_item_wrapper->field_usds = $best_usd['best']['ask']." uah";
+        $collection_item_wrapper->field_eur = $best_eur['best']['ask']." uah";
+        $collection_item_wrapper->field_gbp = $best_gbp['best']['ask']." uah";
+        $collection_item_wrapper->field_chf = $best_chf['best']['ask']." uah";
+        $collection_item_wrapper->save(TRUE);
+
+  //Field SALE
+       $field_collection_item = entity_create('field_collection_item',array(
+           'field_name' => 'field_sale'
+        ));
+       $field_collection_item->setHostEntity('node',$node);
+       $field_collection_item->field_rub[LANGUAGE_NONE][0]['value'] = $best_rub['best']['bid']." uah";
+       $field_collection_item->field_usds[LANGUAGE_NONE][0]['value'] = $best_usd['best']['bid']." uah";
+       $field_collection_item->field_eur[LANGUAGE_NONE][0]['value'] = $best_eur['best']['bid']." uah";
+       $field_collection_item->field_gbp[LANGUAGE_NONE][0]['value'] = $best_gbp['best']['bid']." uah";
+       $field_collection_item->field_chf[LANGUAGE_NONE][0]['value'] = $best_chf['best']['bid']." uah";
+       $field_collection_item ->save();
+
+  //Field on field
+    $field_collection_item = entity_create('field_collection_item',array(
+        'field_name' => 'field_some_field'
+    ));
+    $field_collection_item -> setHostEntity('node',$node);
+    $collection_item_wrapper_2 = entity_metadata_wrapper('field_collection_item',$field_collection_item);
+    $collection_item_wrapper_2->field_valuta = $best_usd['best']['ask']." uah";
+    $collection_item_wrapper_2->field_update_time = $best_rub['best']['ask']." uah"."update:".substr($best_rub['best']['date_time'],10);
+    $collection_item_wrapper_2->save(TRUE);
+
+
+    $parsElement ->clear();
+    unset($parsElement);
+}
+
+
+
